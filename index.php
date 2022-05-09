@@ -32,13 +32,13 @@ $pageclass  = $menu->getActive() !== null ? $menu->getActive()->getParams()->get
 $params     = $this->params;
 
 // Template path
-$templatePath = 'media/templates/site/nature';
+$templatePath = 'media/templates/site/mynature';
 
 // Icons
 $search = '<svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 </svg>';
-$open = '<svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+$open = '<svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
 <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>';
 
@@ -95,15 +95,15 @@ $this->getPreloadManager()->preload($wa->getAsset('style', 'template.nature')->g
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+	$logo = '<img id="logo" style="max-width:250px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
 }
 elseif ($params->get('siteTitle'))
 {
-	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
+	$logo = '<span id="logo" style="max-width:250px" title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
 else
 {
-	$logo = '<img src="' . $templatePath . '/images/nature-logo.png" class="logo" alt="' . $sitename . '">';
+	$logo = '<img id="logo" style="max-width:250px" src="' . $templatePath . '/images/nature-logo.png" class="logo" alt="' . $sitename . '">';
 }
 
 $hasClass = '';
@@ -198,6 +198,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<?php if ($this->countModules('banner', true)) : ?>
 		<div class="container-banner">
 			<jdoc:include type="modules" name="banner" />
+      <div class="round-shape-divider banner"></div>
 		</div>
 	<?php endif; ?>
 
@@ -319,6 +320,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<?php endif; ?>
 
 	<?php if ($this->countModules('footer', true)) : ?>
+  <div class="round-shape-divider footer"></div>
 	<footer class="container-footer">
 		<div class="wrapper container-footer_wrapper">
 			<jdoc:include type="modules" name="footer" />
@@ -328,13 +330,26 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 	<?php if ($params->get('backTop') == 1) : ?>
 		<div class="back-to-top-wrapper">
-			<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_NATURE_BACKTOTOP'); ?>">
+			<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_MYNATURE_BACKTOTOP'); ?>">
 				<span class="arrow-up" aria-hidden="true">&#9650;</span>
 			</a>
 		</div>
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
+
+  <script>
+    // When the user scrolls down 50px from the top of the document, resize the logo
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+        document.getElementById("logo").style.maxWidth = "90px";
+      } else {
+        document.getElementById("logo").style.maxWidth = "250px";
+      }
+    } 
+  </script>
 
 </body>
 </html>

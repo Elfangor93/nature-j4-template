@@ -21,10 +21,12 @@ $wa->addInlineStyle('
 	--h1size: ' . $params->get('h1') . 'rem;
 	--h2size: ' . $params->get('h2') . 'rem;
 	--h3size: ' . $params->get('h3') . 'rem;
+  --hlcolor: ' . $params->get('hlcolor') . ';
 	--headerbg: ' . $params->get('headerbg') . ';
 	--headercolor: ' . $params->get('headercolor') . ';
 	--linkcolor: ' . $params->get('linkcolor') . ';
 	--linkcolorh: ' . $params->get('linkcolorh') . ';
+  --linkcolora: ' . $params->get('linkcolora') . ';
 	--topabg:  ' . $params->get('topabg') . ';
 	--topbbg:  ' . $params->get('topbbg') . ';
 	--wrapperwidth: ' . $params->get('wrapperwidth') . 'px;

@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Iten Bewässerungen",
+    "short_name": "ItenB",
     "icons": [
         {
             "src": "/templates/nature/images/favicons/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
+    "theme_color": "#3486c7",
     "background_color": "#ffffff",
     "display": "standalone"
 }
