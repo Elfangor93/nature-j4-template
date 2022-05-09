@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
@@ -26,10 +27,57 @@ $view      = $app->input->getCmd('view', '');
 $layout    = $app->input->getCmd('layout', '');
 $task      = $app->input->getCmd('task', '');
 $itemid    = $app->input->getCmd('Itemid', '');
+$id        = $app->input->getCmd('id', '');
 $sitename  = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu      = $app->getMenu();
 $pageclass  = $menu->getActive() !== null ? $menu->getActive()->getParams()->get('pageclass_sfx', '') : '';
 $params     = $this->params;
+
+// Get title image
+if (!empty($menu->getActive()->getParams()->get('menu_image')))
+{
+  // get menu item image
+  $image = HTMLHelper::image($menu->getActive()->getParams()->get('menu_image'), $menu->getActive()->title);
+}
+elseif ($option == 'com_content' && $view == 'article')
+{
+  // get article image
+  $item = $app->bootComponent('com_content')->getMVCFactory()->createTable($view);
+  $item->load($id);
+  $images = json_decode($item->images);
+
+  if (empty($images->image_fulltext))
+  {
+    $image = false;
+  }
+  else
+  {
+    $alt = empty($images->image_fulltext_alt) && empty($images->image_fulltext_alt_empty) ? false : $images->image_fulltext_alt;
+    $image = HTMLHelper::image($images->image_fulltext, $alt);
+  }
+}
+elseif ($option == 'com_content' && $view == 'category')
+{
+  // get category image
+  $item = $app->bootComponent('com_categories')->getMVCFactory()->createTable($view);
+  $item->load($id);
+  $cat_params = json_decode($item->params);
+
+  if (empty($cat_params->image))
+  {
+    $image = false;
+  }
+  else
+  {
+    $alt = empty($cat_params->image_alt) ? false : $cat_params->image_alt;
+    $image = HTMLHelper::image($cat_params->image, $alt);
+  }
+}
+else
+{
+  // get image from module
+  $image = false;
+}
 
 // Template path
 $templatePath = 'media/templates/site/mynature';
@@ -195,9 +243,13 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		</div>
 	</header>
 
-	<?php if ($this->countModules('banner', true)) : ?>
+	<?php if ($image || $this->countModules('banner', true)) : ?>
 		<div class="container-banner">
-			<jdoc:include type="modules" name="banner" />
+      <?php if($image) : ?>
+        <?php echo $image; ?>
+      <?php else: ?>
+			  <jdoc:include type="modules" name="banner" />
+      <?php endif; ?>
       <div class="round-shape-divider banner"></div>
 		</div>
 	<?php endif; ?>

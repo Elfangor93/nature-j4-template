@@ -41,7 +41,7 @@ if ($item->id == $active_id)
 
 $linktype = $item->title;
 
-if ($item->menu_image)
+/* if ($item->menu_image)
 {
 	$linktype = HTMLHelper::image($item->menu_image, $item->title);
 
@@ -55,7 +55,7 @@ if ($item->menu_image)
 	{
 		$linktype .= '<span class="image-title">' . $item->title . '</span>';
 	}
-}
+} */
 
 if ($item->browserNav == 1)
 {
