@@ -115,8 +115,17 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 			<?php $blogClass .= (int) $this->params->get('num_columns'); ?>
 		<?php endif; ?>
 		<div class="com-content-category-blog__items blog-items <?php echo $blogClass; ?>">
-		<?php foreach ($this->intro_items as $key => &$item) : ?>
-			<div class="com-content-category-blog__item blog-item"
+		<?php foreach ($this->intro_items as $key => &$item) : 
+      $nchild = '';
+      if ($key == 0) {
+        $nchild = 'first';
+      }
+      if ($key == (count($this->intro_items)-1)) {
+        $nchild = 'last';
+      }
+      
+      ?>
+			<div class="com-content-category-blog__item blog-item <?php echo $nchild; ?>"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 					<?php
 					$this->item = & $item;
@@ -146,3 +155,48 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 		</div>
 	<?php endif; ?>
 </div>
+
+<script>
+  var callback = function(){
+
+    if(document.querySelector('.blog-item.last > .item-content'))
+    {
+      last_elem = document.querySelector('.blog-item.last > .item-content');
+    }
+    else if (document.querySelector('.child-item.last > .item-content'))
+    {
+      last_elem = document.querySelector('.child-item.last > .item-content');
+    }
+    
+    if(last_elem)
+    {
+      styles = window.getComputedStyle(last_elem,':before');
+      bcArr  = rgbToArray(styles['background-color']);
+      bc     = rgbToHex(bcArr[0],bcArr[1],bcArr[2]);
+      grey   = getComputedStyle(document.documentElement).getPropertyValue('--grey1');
+
+      if(bc.toLowerCase().trim() == grey.toLowerCase().trim())
+      {
+        if(divider = document.querySelector('.round-shape-divider.footer'))
+        {
+          divider.style.backgroundColor = grey;
+        }
+      }
+    }
+
+  }; //end callback
+
+  var rgbToHex = (r, g, b) => '#' + [r, g, b].map(x => {
+    let hex = x.toString(16)
+    return hex.length === 1 ? '0' + hex : hex
+  }).join('')
+
+  var rgbToArray = rgbStr => rgbStr.match(/\d+/g).map(Number);
+
+  if ( document.readyState === "complete" || (document.readyState !== "loading" && !document.documentElement.doScroll))
+  {
+    callback();
+  } else {
+    document.addEventListener("DOMContentLoaded", callback);
+  }
+</script>

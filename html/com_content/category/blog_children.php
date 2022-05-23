@@ -32,9 +32,17 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
       $child->intro_image = json_decode($fieldModel->getFieldValue($field_id, $child->id));
     ?>
 		<?php // Check whether category access level allows access to subcategories. ?>
-		<?php if (in_array($child->access, $groups)) : ?>
+		<?php if (in_array($child->access, $groups)) : 
+      $nchild = '';
+      if ($id == 0) {
+        $nchild = 'first';
+      }
+      if ($id == (count($this->children[$this->category->id])-1)) {
+        $nchild = 'last';
+      }
+      ?>
 			<?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
-			<div class="com-content-category-blog__child child-item">
+			<div class="com-content-category-blog__child child-item <?php echo $nchild; ?>">
         <div class="item-content">
 
           <div class="text">

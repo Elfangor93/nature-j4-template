@@ -376,6 +376,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<footer class="container-footer">
 		<div class="wrapper container-footer_wrapper">
 			<jdoc:include type="modules" name="footer" />
+      <div id="copyright" class="copyright">
+        <p>© 2022 itenbewaesserung.ch, Webdesign by <a href="https://tech.spuur.ch" target="_blank">Manuel Häusler</a></p>
+      </div>
 		</div>
 	</footer>
 	<?php endif; ?>

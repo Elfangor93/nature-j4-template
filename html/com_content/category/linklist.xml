@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="TPL_MYNATURE_CATEGORY_VIEW_LINKLIST_TITLE" option="TPL_MYNATURE_CATEGORY_VIEW_LINKLIST_OPTION">
+		<help
+			key = "Menu_Item:_Link_List"
+		/>
+		<message>
+			<![CDATA[TPL_MYNATURE_CATEGORY_VIEW_LINKLIST_DESC]]>
+		</message>
+	</layout>
+
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+		>
+			<field
+				name="id"
+				type="modal_category"
+				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
+				extension="com_content"
+				required="true"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
+			/>
+
+			<field
+				name="filter_tag"
+				type="tag"
+				label="JTAG"
+				multiple="true"
+				mode="nested"
+			/>
+		</fieldset>
+	</fields>
+
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+		<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+
+			<field
+				name="show_category_title"
+				type="list"
+				label="JGLOBAL_SHOW_CATEGORY_TITLE"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_description"
+				type="list"
+				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_description_image"
+				type="list"
+				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_no_articles"
+				type="list"
+				label="COM_CONTENT_NO_ARTICLES_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+      <field
+        name="subtitle"
+        type="text"
+        label="TPL_MYNATURE_SUBTITLE_LABEL"
+        description="TPL_MYNATURE_SUBTITLE_DESC"
+        default=""
+      />
+
+		</fieldset>
+
+		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
+			<field
+				name="show_pagination_limit"
+				type="list"
+				label="JGLOBAL_DISPLAY_SELECT_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="spacer1"
+				type="spacer"
+				hr="true"
+			/>
+
+			<field
+				name="orderby_pri"
+				type="list"
+				label="JGLOBAL_CATEGORY_ORDER_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="none">JGLOBAL_NO_ORDER</option>
+				<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+				<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+				<option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+			</field>
+
+			<field
+				name="orderby_sec"
+				type="list"
+				label="JGLOBAL_ARTICLE_ORDER_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="front">COM_CONTENT_FEATURED_ORDER</option>
+				<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+				<option value="date">JGLOBAL_OLDEST_FIRST</option>
+				<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+				<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+				<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+				<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+				<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+				<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
+				<option value="random">JGLOBAL_RANDOM_ORDER</option>
+				<option value="order">JGLOBAL_ORDERING</option>
+				<option	value="rorder">JGLOBAL_REVERSE_ORDERING</option>
+				<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+				<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+				<option value="rank" requires="vote"> JGLOBAL_RATINGS_DESC</option>
+				<option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
+			</field>
+
+			<field
+				name="order_date"
+				type="list"
+				label="JGLOBAL_ORDERING_DATE_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="created">JGLOBAL_CREATED</option>
+				<option value="modified">JGLOBAL_MODIFIED</option>
+				<option value="published">JPUBLISHED</option>
+			</field>
+
+			<field
+				name="show_pagination"
+				type="list"
+				label="JGLOBAL_PAGINATION_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
+			</field>
+
+			<field
+				name="show_pagination_results"
+				type="list"
+				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="display_num"
+				type="list"
+				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
+				default=""
+				useglobal="true"
+				validate="options"
+				>
+				<option value="5">J5</option>
+				<option value="10">J10</option>
+				<option value="15">J15</option>
+				<option value="20">J20</option>
+				<option value="25">J25</option>
+				<option value="30">J30</option>
+				<option value="50">J50</option>
+				<option value="100">J100</option>
+				<option value="0">JALL</option>
+			</field>
+		</fieldset>
+
+		<fieldset name="integration" label="COM_MENUS_INTEGRATION_FIELDSET_LABEL">
+
+			<field
+				name="show_feed_link"
+				type="list"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="feed_summary"
+				type="list"
+				label="JGLOBAL_FEED_SUMMARY_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JGLOBAL_INTRO_TEXT</option>
+				<option value="1">JGLOBAL_FULL_TEXT</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>
