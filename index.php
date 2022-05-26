@@ -376,9 +376,11 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<footer class="container-footer">
 		<div class="wrapper container-footer_wrapper">
 			<jdoc:include type="modules" name="footer" />
+      <?php /*
       <div id="copyright" class="copyright">
         <p>© 2022 itenbewaesserung.ch, Webdesign by <a href="https://tech.spuur.ch" target="_blank">Manuel Häusler</a></p>
       </div>
+      */ ?>
 		</div>
 	</footer>
 	<?php endif; ?>
@@ -403,7 +405,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
       } else {
         document.getElementById("logo").style.maxWidth = "250px";
       }
-    } 
+    }
   </script>
 
 </body>
