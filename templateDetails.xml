@@ -73,6 +73,14 @@
 					showon="logoPosition:0"
 				/>
 
+        <field
+					name="logoFile_small"
+					type="media"
+					default=""
+					label="TPL_MYNATURE_LOGO_SMALL_LABEL"
+					showon="logoPosition:0"
+				/>
+
 				<field
 					name="siteTitle"
 					type="text"

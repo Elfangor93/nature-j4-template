@@ -144,6 +144,11 @@ $this->getPreloadManager()->preload($wa->getAsset('style', 'template.nature')->g
 if ($params->get('logoFile'))
 {
 	$logo = '<img id="logo" style="max-width:250px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+
+  if ($params->get('logoFile_small'))
+  {
+    $logo .= '<img id="logo-small" class="hidden" style="max-width:132px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile_small'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+  }
 }
 elseif ($params->get('siteTitle'))
 {
@@ -402,8 +407,20 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
     function scrollFunction() {
       if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         document.getElementById("logo").style.maxWidth = "90px";
+
+        <?php if ($params->get('logoFile_small')) :?>
+          document.getElementById("logo-small").classList.remove("hidden");
+          document.getElementById("logo").classList.add("hidden");
+          document.getElementById("logo-small").style.maxWidth = "55px";
+        <?php endif; ?>
       } else {
         document.getElementById("logo").style.maxWidth = "250px";
+
+        <?php if ($params->get('logoFile_small')) :?>
+          document.getElementById("logo-small").classList.add("hidden");
+          document.getElementById("logo").classList.remove("hidden");
+          document.getElementById("logo-small").style.maxWidth = "132px";
+        <?php endif; ?>
       }
     }
   </script>

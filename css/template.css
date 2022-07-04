@@ -740,7 +740,8 @@ header .nav-item.active > a {
   color: var(--linkcolora);
   text-decoration: none;
 }
-header #logo {
+header #logo,
+header #logo-small {
   transition-property: max-width;
   transition-duration: 0.3s;
 }
