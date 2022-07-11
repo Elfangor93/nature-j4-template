@@ -933,8 +933,8 @@ header #brand-logo {
   background-color: var(--banneroverlay);
 }
 .banner-overlay .overlay .page-header {
-  --fluid-type-min: 2rem;
-  --fluid-type-max: 6rem;
+  --fluid-type-min: 1rem;
+  --fluid-type-max: 3rem;
   --fluid-type-target: 5vw;
   font-size: clamp(var(--fluid-type-min, 1rem), calc(1rem + var(--fluid-type-target, 3vw)), var(--fluid-type-max, 1.3rem));
   line-height: 1em;
@@ -2196,7 +2196,7 @@ body.error-site footer {
   place-items: center;
 }
 .logos .sige {
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .sige_cont_0 {
   width: auto !important;
@@ -2221,6 +2221,9 @@ body.error-site footer {
   border: none !important;
   margin: 0 !important;
   padding: 0 !important;
+}
+.sige_clr {
+  display: none !important;
 }
 
 .grey-box {

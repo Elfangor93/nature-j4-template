@@ -14,7 +14,7 @@
   width: 100%;
   max-width: 30em;
   margin: 60px auto;
-  background-color: #fff;
+  background-color: var(--bodybg);
   border: 1px solid rgba(0, 0, 0, .1);
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, .05);
@@ -22,12 +22,22 @@
 
 .header {
   position: relative;
-  padding: 1em 2em;
+  padding: 0.5em 2em;
   margin: 0;
-  color: #fff;
+  color: var(--bodycolor);
   text-align: center;
   background-color: var(--headerbg);
   border-radius: 5px 5px 0 0;
+}
+
+.header h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.header h2 {
+  font-size: 1.7rem;
+  margin-top: 1.5rem;
 }
 
 html[dir=rtl] .header {
@@ -35,7 +45,7 @@ html[dir=rtl] .header {
 }
 
 .login {
-  padding: 40px 20px 20px;
+  padding: 20px;
 }
 
 .form-control {
@@ -43,7 +53,7 @@ html[dir=rtl] .header {
 }
 
 img {
-  max-width: 100%;
+  max-width: 300px;
   height: auto;
   margin: 15px auto;
   border: 0;
@@ -63,4 +73,10 @@ input[type=password] {
 
 input {
   margin: .5em 0 1em;
+}
+
+@media (max-width: 800px) {
+  .offline-card {
+    margin: 0;
+  }
 }

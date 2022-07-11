@@ -143,14 +143,20 @@ $wa->useStyle('template.nature')
 	->useScript('template.user');
 $this->getPreloadManager()->preload($wa->getAsset('style', 'template.nature')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
 
+// Preprocess logo
+$logo_path_arr      = explode('#', htmlspecialchars($params->get('logoFile'), ENT_QUOTES));
+$logosmall_path_arr = explode('#', htmlspecialchars($params->get('logoFile_small'), ENT_QUOTES));
+list($width, $height, $type, $logo_attr)      = getimagesize($logo_path_arr[0]);
+list($width, $height, $type, $logosmall_attr) = getimagesize($logosmall_path_arr[0]);
+
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
-	$logo = '<img id="logo" style="max-width:250px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+	$logo = '<img id="logo" style="max-width:250px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '" '.$logo_attr.'>';
 
   if ($params->get('logoFile_small'))
   {
-    $logo .= '<img id="logo-small" style="max-width:250px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile_small'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+    $logo .= '<img id="logo-small" style="max-width:250px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile_small'), ENT_QUOTES) . '" alt="' . $sitename . '" '.$logosmall_attr.'>';
   }
 }
 elseif ($params->get('siteTitle'))
@@ -385,7 +391,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<div class="wrapper container-footer_wrapper">
 			<jdoc:include type="modules" name="footer" />
       <div id="copyright" class="copyright">
-        <p>© 2022 itenbewaesserung.ch, Webdesign von <a href="https://www.raebergd.ch/" target="_blank">Nadia Räber</a>, Programmierung von <a href="https://tech.spuur.ch" target="_blank">Manuel Häusler</a></p>
+        <p>© 2022 iten-bewaesserungen.ch, Webdesign von <a href="https://www.raebergd.ch/" target="_blank">Nadia Räber</a>, Programmierung von <a href="https://tech.spuur.ch" target="_blank">Manuel Häusler</a></p>
       </div>
 		</div>
 	</footer>

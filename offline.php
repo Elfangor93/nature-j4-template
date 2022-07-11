@@ -17,6 +17,9 @@ $wa               = $this->getWebAssetManager();
 $document         = $app->getDocument();
 $params 		  = $this->params;
 
+// Set generator
+$this->setGenerator('Manuel Häusler (tech.spuur.ch)');
+
 // Template path
 $templatePath = 'media/templates/site/nature';
 
@@ -32,19 +35,23 @@ if ($paramsFontScheme)
 
 // Enable assets
 $wa->useStyle('template.nature')
-	->useScript('template.nature')
-	->useStyle('template.user')
-	->useScript('template.user')
-  	->useStyle('template.offline');
+	 ->useScript('template.nature')
+	 ->useStyle('template.user')
+	 ->useScript('template.user')
+   ->useStyle('template.offline');
 $this->getPreloadManager()->preload($wa->getAsset('style', 'template.nature')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
 $this->getPreloadManager()->preload($wa->getAsset('style', 'template.offline')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
 
 // Logo file or site title param
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
+// Preprocess logo
+$logo_path_arr = explode('#', htmlspecialchars($params->get('logoFile'), ENT_QUOTES));
+list($width, $height, $type, $logo_attr) = getimagesize($logo_path_arr[0]);
+
 if ($params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '" '.$logo_attr.'>';
 }
 elseif ($params->get('siteTitle'))
 {
@@ -83,6 +90,11 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<?php endif; ?>
 				<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 					<p><?php echo $app->get('offline_message'); ?></p>
+          <p>
+            <h2>Kontakt:</h2>
+            Telefon: 041 836 04 04<br />
+            <a id="mail" href="#"><span class="<?php echo $icon; ?>"></span> E-Mail anzeigen</a>
+          </p>
 				<?php elseif ($app->get('display_offline_message', 1) == 2) : ?>
 					<p><?php echo Text::_('JOFFLINE_MESSAGE'); ?></p>
 				<?php endif; ?>
@@ -113,5 +125,24 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</div>
 		</div>
 	</div>
+
+  <script>
+    let link = document.getElementById('mail');
+
+    link.onclick = function()
+    {
+      if (link.innerHTML.includes("E-Mail anzeigen"))
+      {
+        let adress = "info"
+        let domain = "iten-bewaesserungen.ch";
+        let linker = adress + '@' + domain;
+        link.innerHTML = linker;
+        link.href = "mailto:" + linker;
+        return false;
+      } else {
+        return
+      }		    
+    };
+</script>
 </body>
 </html>
