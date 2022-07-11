@@ -33,6 +33,9 @@ $menu      = $app->getMenu();
 $pageclass  = $menu->getActive() !== null ? $menu->getActive()->getParams()->get('pageclass_sfx', '') : '';
 $params     = $this->params;
 
+// Set generator
+$this->setGenerator('Manuel Häusler (tech.spuur.ch)');
+
 // Get title image
 if (!empty($menu->getActive()->getParams()->get('menu_image')))
 {
@@ -147,7 +150,7 @@ if ($params->get('logoFile'))
 
   if ($params->get('logoFile_small'))
   {
-    $logo .= '<img id="logo-small" class="hidden" style="max-width:132px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile_small'), ENT_QUOTES) . '" alt="' . $sitename . '">';
+    $logo .= '<img id="logo-small" style="max-width:250px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile_small'), ENT_QUOTES) . '" alt="' . $sitename . '">';
   }
 }
 elseif ($params->get('siteTitle'))
@@ -214,7 +217,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<?php endif; ?>
 			<?php else : ?>
 				<div class="header__start navbar-brand">
-					<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
+					<a id="brand-logo" class="brand-logo" href="<?php echo $this->baseurl; ?>/">
 						<?php echo $logo; ?>
 					</a>
 					<?php if ($params->get('siteDescription')) : ?>
@@ -381,11 +384,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<footer class="container-footer">
 		<div class="wrapper container-footer_wrapper">
 			<jdoc:include type="modules" name="footer" />
-      <?php /*
       <div id="copyright" class="copyright">
-        <p>© 2022 itenbewaesserung.ch, Webdesign by <a href="https://tech.spuur.ch" target="_blank">Manuel Häusler</a></p>
+        <p>© 2022 itenbewaesserung.ch, Webdesign von <a href="https://www.raebergd.ch/" target="_blank">Nadia Räber</a>, Programmierung von <a href="https://tech.spuur.ch" target="_blank">Manuel Häusler</a></p>
       </div>
-      */ ?>
 		</div>
 	</footer>
 	<?php endif; ?>
@@ -405,21 +406,19 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
     window.onscroll = function() {scrollFunction()};
 
     function scrollFunction() {
-      if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-        document.getElementById("logo").style.maxWidth = "90px";
-
+      if (document.documentElement.scrollTop > 130) {
         <?php if ($params->get('logoFile_small')) :?>
-          document.getElementById("logo-small").classList.remove("hidden");
-          document.getElementById("logo").classList.add("hidden");
-          document.getElementById("logo-small").style.maxWidth = "55px";
+          document.getElementById("logo").style.opacity = "0";
+          document.getElementById("logo").style.height = "0";
+          document.getElementById("brand-logo").style.minHeight = "50px";
+          document.getElementById("logo-small").style.maxWidth = "140px";
         <?php endif; ?>
-      } else {
-        document.getElementById("logo").style.maxWidth = "250px";
-
+      } else if (document.documentElement.scrollTop < 20) {
         <?php if ($params->get('logoFile_small')) :?>
-          document.getElementById("logo-small").classList.add("hidden");
-          document.getElementById("logo").classList.remove("hidden");
-          document.getElementById("logo-small").style.maxWidth = "132px";
+          document.getElementById("brand-logo").style.minHeight = "153.5px";
+          document.getElementById("logo-small").style.maxWidth = "250px";
+          document.getElementById("logo").style.opacity = "1";
+          document.getElementById("logo").style.height = "auto";
         <?php endif; ?>
       }
     }

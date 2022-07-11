@@ -149,8 +149,13 @@ body {
   overflow-x: hidden;
 }
 main {
+  position: relative;
+  z-index: 0;
   padding: 0 var(--s2);
   overflow-x: hidden;
+  top: -5px;
+  margin: 5px 0 -5px;
+  background: var(--bodybg);
 }
 h1, .h1,
 h2, .h2,
@@ -742,15 +747,35 @@ header .nav-item.active > a {
 }
 header #logo,
 header #logo-small {
-  transition-property: max-width;
-  transition-duration: 0.3s;
+  display: block;
+  opacity: 1;
+  height: auto;
+  overflow: hidden;
+  transition: opacity .2s ease-in-out;
+  -moz-transition: opacity .2s ease-in-out;
+  -webkit-transition: opacity .2s ease-in-out;
+}
+header #logo-small {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: max-width .05s ease-out;
+  -moz-transition: max-width .05s ease-out;
+  -webkit-transition: max-width .05s ease-out;
 }
 .navbar-brand span {
   font-size: 3rem;
 }
+header #brand-logo {
+  min-height: 153.5px;
+  transition: min-height .2s ease-out;
+  -moz-transition: min-height .2s ease-out;
+  -webkit-transition: min-height .2s ease-out;
+}
 .navbar-brand a {
   display: block;
   text-decoration: none;
+  position: relative;
 }
 .header__end {
   display: flex;
@@ -1121,15 +1146,18 @@ footer [class^="mod-"], footer .moduletable {
   margin-top: auto;
   background-color: var(--bodybg);
 }
+body.view-contact .round-shape-divider.footer {
+  background-color: var(--grey1);
+}
 .round-shape-divider.footer::after {
   background: var(--footerbg);
 }
 footer .copyright {
-  margin-top: var(--s1);
+  margin-top: var(--s2);
 }
 footer .copyright p,
 footer .copyright a {
-  font-size: var(--s1);
+  font-size: small;
 }
 /* Menu */
 .nav-item a,
@@ -1369,7 +1397,6 @@ footer .copyright a {
   text-align: right;
 }
 .com-users-login::after,
-.com-contact.contact::after,
 .com-content-category-list::after {
   content: "";
   display: block;
@@ -1450,16 +1477,20 @@ footer .copyright a {
   margin: 0;
 }
 .com-contact__info {
-  margin: 0 auto;
+  /* margin: 0 auto;
   width: 300px;
   border: 1px solid var(--grey1);
-  border-radius: 5px;
+  border-radius: 5px; */
+  text-align: center;
 }
 .com-contact__info .block {
   padding: var(--s0) var(--s1);
 }
 .com-contact__info .block div + div {
   margin-left: var(--s1);
+}
+.com-contact__info .com-contact__address div {
+  margin: 20px 0;
 }
 /* Modules */
 .mod-breadcrumbs {

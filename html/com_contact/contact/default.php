@@ -83,7 +83,6 @@ $this->show_name = $tparams->get('show_name');
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
 	<?php if ($this->params->get('show_info', 1)) : ?>
-
 		<div class="com-contact__container">
 
 			<?php if ($this->item->image && $tparams->get('show_image')) : ?>
@@ -118,13 +117,13 @@ $this->show_name = $tparams->get('show_name');
 				<?php endif; ?>
 			</div>
 		</div>
-
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_email_form') && ($this->item->email_to || $this->item->user_id)) : ?>
-		<?php echo '<h3>' . Text::_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
-
-		<?php echo $this->loadTemplate('form'); ?>
+		<div class="grey-box">
+      <?php echo '<h3>' . Text::_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
+		  <?php echo $this->loadTemplate('form'); ?>
+    </div>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_links')) : ?>

@@ -233,7 +233,7 @@ $hhtag = $this->params->get('show_page_heading') ? 'h3' : 'h2';
                       $link_info = pathinfo($link);
                       $label = $label ?: $link_info['basename'];
                     ?>
-                    <a href="<?php echo htmlspecialchars($link, ENT_COMPAT, 'UTF-8'); ?>" rel="nofollow" class="btn btn-primary" aria-label="<?php echo htmlspecialchars($label, ENT_COMPAT, 'UTF-8'); ?>">
+                    <a href="<?php echo htmlspecialchars($link, ENT_COMPAT, 'UTF-8'); ?>" rel="nofollow" target="_blank" class="btn btn-primary" aria-label="<?php echo htmlspecialchars($label, ENT_COMPAT, 'UTF-8'); ?>">
                       <?php echo htmlspecialchars($label, ENT_COMPAT, 'UTF-8'); ?>
                     </a>
                     <?php endforeach; ?>
