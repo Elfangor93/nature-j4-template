@@ -2241,7 +2241,10 @@ body.error-site footer {
   left: -2000px;
   width: 4000px;
 }
-
+.container-top-a .grey-box {
+  margin-top: 0;
+  padding: 0;
+}
 .form-control-feedback {
   margin-left: var(--s2);
 }
