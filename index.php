@@ -192,8 +192,28 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="metas" />
+
+  <meta property="og:title" content="<?php echo $params->get('sitename');?>">
+	<meta property="og:type" content="website"/>
+	<meta property="og:url" content="<?php echo str_replace('" ','&quot;',JURI::current());?>">
+	<meta property="og:image" content="<?php echo Uri::root(). 'images/logo_osg.png';?>"/>
+	<meta property="og:site_name" content="Iten Bewässerungen"/>
+  <meta property="og:description" content="<?php echo $params->get( 'MetaDesc' );?>"/>
+  <meta name="twitter:title" content="<?php echo $params->get('sitename');?>">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="tech.spuur">
+	<meta name="twitter:creator" content="Manuel Häusler">
+	<meta name="twitter:url" content="<?php echo str_replace('" ','&quot;',JURI::current());?>">
+	<meta name="twitter:description" content="<?php echo $params->get( 'MetaDesc' );?>">
+	<meta name="twitter:image" content="<?php echo Uri::root(). 'images/logo_osg.png';?>">
+
 	<?php include "includes/style.php";?>
 	<jdoc:include type="styles" />
+  <style>
+      header #brand-logo {
+        height: 160px;
+      }
+  </style>
 	<jdoc:include type="scripts" />
 </head>
 <body class="site <?php echo $option
@@ -212,7 +232,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</div>
 		</div>
 	<?php endif; ?>
-	<header class="header <?php echo $stickyHeader; ?>">
+	<header id="header-elem" class="header <?php echo $stickyHeader; ?>">
 		<a href="#main" class="skip-link">Skip to main content</a>
 		<div class="wrapper header__wrapper">
 			<?php if ($params->get('logoPosition')) : ?>
@@ -391,7 +411,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<div class="wrapper container-footer_wrapper">
 			<jdoc:include type="modules" name="footer" />
       <div id="copyright" class="copyright">
-        <p>© 2022 iten-bewaesserungen.ch, Webdesign von <a href="https://www.raebergd.ch/" target="_blank">Nadia Räber</a>, Programmierung von <a href="https://tech.spuur.ch" target="_blank">Manuel Häusler</a></p>
+        <p>© <?php echo date("Y"); ?> iten-bewaesserungen.ch, Webdesign von <a href="https://www.raebergd.ch/" target="_blank">Nadia Räber</a>, Programmierung von <a href="https://tech.spuur.ch" target="_blank">Manuel Häusler</a></p>
       </div>
 		</div>
 	</footer>
@@ -416,13 +436,13 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
         <?php if ($params->get('logoFile_small')) :?>
           document.getElementById("logo").style.opacity = "0";
           document.getElementById("logo").style.height = "0";
-          document.getElementById("brand-logo").style.minHeight = "50px";
-          document.getElementById("logo-small").style.maxWidth = "140px";
+          document.getElementById("brand-logo").style.height = "60px";
+          document.getElementById("logo-small").style.height = "55px";
         <?php endif; ?>
       } else if (document.documentElement.scrollTop < 20) {
         <?php if ($params->get('logoFile_small')) :?>
-          document.getElementById("brand-logo").style.minHeight = "153.5px";
-          document.getElementById("logo-small").style.maxWidth = "250px";
+          document.getElementById("brand-logo").style.height = "160px";
+          document.getElementById("logo-small").style.height = "98px";
           document.getElementById("logo").style.opacity = "1";
           document.getElementById("logo").style.height = "auto";
         <?php endif; ?>

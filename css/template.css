@@ -150,7 +150,7 @@ body {
 }
 main {
   position: relative;
-  z-index: 0;
+  z-index: 2;
   padding: 0 var(--s2);
   overflow-x: hidden;
   top: -5px;
@@ -400,7 +400,7 @@ figcaption {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 3;
 }
 .modal iframe {
   width: 100%;
@@ -750,27 +750,32 @@ header #logo-small {
   display: block;
   opacity: 1;
   height: auto;
+  width: auto;
   overflow: hidden;
-  transition: opacity .2s ease-in-out;
-  -moz-transition: opacity .2s ease-in-out;
-  -webkit-transition: opacity .2s ease-in-out;
 }
 header #logo-small {
   position: absolute;
   top: 0;
   left: 0;
-  transition: max-width .05s ease-out;
-  -moz-transition: max-width .05s ease-out;
-  -webkit-transition: max-width .05s ease-out;
 }
 .navbar-brand span {
   font-size: 3rem;
 }
+header #logo,
+header #logo-small {
+  transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -webkit-transition: all .5s ease-in-out;
+}
 header #brand-logo {
-  min-height: 153.5px;
-  transition: min-height .2s ease-out;
-  -moz-transition: min-height .2s ease-out;
-  -webkit-transition: min-height .2s ease-out;
+  transition: all 1s ease-in;
+  -moz-transition: all 1s ease-in;
+  -webkit-transition: all 1s ease-in;
+}
+header #brand-logo {
+  transition: all .05s ease-out;
+  -moz-transition: all .05s ease-out;
+  -webkit-transition: all .05s ease-out;
 }
 .navbar-brand a {
   display: block;
@@ -2256,4 +2261,11 @@ body.error-site footer {
 }
 hr {
   border: 0.5px solid var(--grey2);
+}
+
+@media (min-width: 36em) {
+  .modal-dialog {
+    max-width: 500px;
+    margin: 6rem auto;
+  }
 }
