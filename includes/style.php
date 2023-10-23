@@ -23,6 +23,8 @@ $wa->addInlineStyle('
     --h3size: ' . $params->get('h3') . 'rem;
     --headerbg: ' . $params->get('headerbg') . ';
     --headercolor: ' . $params->get('headercolor') . ';
+    --headercolorh: ' . $params->get('headercolorh') . ';
+    --headingcolor: ' . $params->get('headingcolor') . ';
     --linkcolor: ' . $params->get('linkcolor') . ';
     --linkcolorh: ' . $params->get('linkcolorh') . ';
     --topabg:  ' . $params->get('topabg') . ';

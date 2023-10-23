@@ -10,8 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\Document\HtmlDocument $this */
 
@@ -25,10 +27,60 @@ $view      = $app->input->getCmd('view', '');
 $layout    = $app->input->getCmd('layout', '');
 $task      = $app->input->getCmd('task', '');
 $itemid    = $app->input->getCmd('Itemid', '');
+$id        = $app->input->getCmd('id', '');
 $sitename  = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu      = $app->getMenu();
 $pageclass  = $menu->getActive() !== null ? $menu->getActive()->getParams()->get('pageclass_sfx', '') : '';
 $params     = $this->params;
+
+// Set generator
+$this->setGenerator($params->get('generator', 'Joomla! - Open Source Content Management'));
+
+// Get title image
+if (!empty($menu->getActive()->getParams()->get('menu_image')))
+{
+  // get menu item image
+  $image = HTMLHelper::image($menu->getActive()->getParams()->get('menu_image'), $menu->getActive()->title);
+}
+elseif ($option == 'com_content' && $view == 'article')
+{
+  // get article image
+  $item = $app->bootComponent('com_content')->getMVCFactory()->createTable($view);
+  $item->load($id);
+  $images = json_decode($item->images);
+
+  if (empty($images->image_fulltext))
+  {
+    $image = false;
+  }
+  else
+  {
+    $alt = empty($images->image_fulltext_alt) && empty($images->image_fulltext_alt_empty) ? false : $images->image_fulltext_alt;
+    $image = HTMLHelper::image($images->image_fulltext, $alt);
+  }
+}
+elseif ($option == 'com_content' && $view == 'category')
+{
+  // get category image
+  $item = $app->bootComponent('com_categories')->getMVCFactory()->createTable($view);
+  $item->load($id);
+  $cat_params = json_decode($item->params);
+
+  if (empty($cat_params->image))
+  {
+    $image = false;
+  }
+  else
+  {
+    $alt = empty($cat_params->image_alt) ? false : $cat_params->image_alt;
+    $image = HTMLHelper::image($cat_params->image, $alt);
+  }
+}
+else
+{
+  // get image from module
+  $image = false;
+}
 
 // Template path
 $templatePath = 'media/templates/site/nature';
@@ -94,31 +146,30 @@ $this->getPreloadManager()->preload($wa->getAsset('style', 'template.nature')->g
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
-    $imageAttr = [
-        'src'      => $params->get('logoFile'),
-        'class'    => 'logo',
-        'alt'      => $sitename,
-        'loading'  => 'eager',
-        'decoding' => 'async'
-    ];
-    $logo = LayoutHelper::render('joomla.html.image', $imageAttr);
+  $logo_path_arr = explode('#', htmlspecialchars($params->get('logoFile'), ENT_QUOTES));
+  list($logo_width, $logo_height, $logo_type, $logo_attr) = getimagesize($logo_path_arr[0]);
+
+  $logo = '<img id="logo" style="max-width:250px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '" '.$logo_attr.'>';
+  
+  if ($params->get('logoFile_small'))
+  {
+    $logosmall_path_arr = explode('#', htmlspecialchars($params->get('logoFile_small'), ENT_QUOTES));
+    list($logosmall_width, $logosmall_height, $logosmall_type, $logosmall_attr) = getimagesize($logosmall_path_arr[0]);
+
+    $logo .= '<img id="logo-small" style="max-width:250px" src="' . Uri::root() . htmlspecialchars($params->get('logoFile_small'), ENT_QUOTES) . '" alt="' . $sitename . '" '.$logosmall_attr.'>';
+  }
 }
 elseif ($params->get('siteTitle'))
 {
-    $logo = '<span title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
+  list($logo_width, $logo_height) = array(250, 92);
+
+  $logo = '<span id="logo" style="max-width:250px" title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
 else
 {
-    $imageAttr = [
-        'src'      => $templatePath . '/images/nature-logo.png',
-        'class'    => 'logo',
-        'width'    => '250',
-        'height'   => '92',
-        'alt'      => $sitename,
-        'loading'  => 'eager',
-        'decoding' => 'async'
-    ];
-    $logo = LayoutHelper::render('joomla.html.image', $imageAttr);
+  list($logo_width, $logo_height, $logo_type, $logo_attr) = getimagesize($templatePath . '/images/nature-logo.png');
+
+  $logo = '<img id="logo" style="max-width:250px" src="' . $templatePath . '/images/nature-logo.png" class="logo" alt="' . $sitename . '">';
 }
 
 $hasClass = '';
@@ -145,8 +196,21 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
     <jdoc:include type="metas" />
+
+    <meta property="og:title" content="<?php echo $params->get('sitename');?>">
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="<?php echo str_replace('" ','&quot;', Uri::current());?>">
+    <meta property="og:image" content="<?php echo Uri::root() . 'images/logo_osg.png';?>"/>
+    <meta property="og:site_name" content="Iten Bewässerungen"/>
+    <meta property="og:description" content="<?php echo $params->get( 'MetaDesc' );?>"/>
+
     <?php include "templates/nature/includes/style.php";?>
     <jdoc:include type="styles" />
+    <style>
+        header #brand-logo {
+          height: <?php echo $logo_height; ?>;
+        }
+    </style>
     <jdoc:include type="scripts" />
 </head>
 <body class="site <?php echo $option
@@ -165,7 +229,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
             </div>
         </div>
     <?php endif; ?>
-    <header class="header <?php echo $stickyHeader; ?>">
+    <header id="header-elem" class="header <?php echo $stickyHeader; ?>">
         <a href="#main" class="skip-link">Skip to main content</a>
         <div class="wrapper header__wrapper">
             <?php if ($params->get('logoPosition')) : ?>
@@ -176,7 +240,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                 <?php endif; ?>
             <?php else : ?>
                 <div class="header__start navbar-brand">
-                    <a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
+                    <a id="brand-logo" class="brand-logo" href="<?php echo $this->baseurl; ?>/">
                         <?php echo $logo; ?>
                     </a>
                     <?php if ($params->get('siteDescription')) : ?>
@@ -210,10 +274,15 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
         </div>
     </header>
 
-    <?php if ($this->countModules('banner', true)) : ?>
-        <div class="container-banner">
-            <jdoc:include type="modules" name="banner" />
-        </div>
+    <?php if ($image || $this->countModules('banner', true)) : ?>
+      <div class="container-banner">
+        <?php if($image) : ?>
+          <?php echo $image; ?>
+        <?php else: ?>
+          <jdoc:include type="modules" name="banner" />
+        <?php endif; ?>
+        <div class="round-shape-divider banner"></div>
+      </div>
     <?php endif; ?>
 
     <?php if ($this->countModules('top-a', true)) : ?>
@@ -334,11 +403,15 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
     <?php endif; ?>
 
     <?php if ($this->countModules('footer', true)) : ?>
-    <footer class="container-footer">
+      <div class="round-shape-divider footer"></div>
+      <footer class="container-footer">
         <div class="wrapper container-footer_wrapper">
-            <jdoc:include type="modules" name="footer" />
+          <jdoc:include type="modules" name="footer" />
+          <div id="copyright" class="copyright">
+            <p>© <?php echo date("Y") . ' ' . $params->get('copyright'); ?> </p>
+          </div>
         </div>
-    </footer>
+      </footer>
     <?php endif; ?>
 
     <?php if ($params->get('backTop') == 1) : ?>
@@ -350,6 +423,29 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
     <?php endif; ?>
 
     <jdoc:include type="modules" name="debug" style="none" />
+
+    <script>
+      // When the user scrolls down 50px from the top of the document, resize the logo
+      window.onscroll = function() {scrollFunction()};
+
+      function scrollFunction() {
+        if (document.documentElement.scrollTop > 130) {
+          <?php if ($params->get('logoFile_small')) :?>
+            document.getElementById("logo").style.opacity = "0";
+            document.getElementById("logo").style.height = "0";
+            document.getElementById("brand-logo").style.height = "60px";
+            document.getElementById("logo-small").style.height = "55px";
+          <?php endif; ?>
+        } else if (document.documentElement.scrollTop < 20) {
+          <?php if ($params->get('logoFile_small')) :?>
+            document.getElementById("brand-logo").style.height = "160px";
+            document.getElementById("logo-small").style.height = "98px";
+            document.getElementById("logo").style.opacity = "1";
+            document.getElementById("logo").style.height = "auto";
+          <?php endif; ?>
+        }
+      }
+    </script>
 
 </body>
 </html>
