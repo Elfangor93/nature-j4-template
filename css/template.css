@@ -1407,6 +1407,9 @@ footer .copyright a {
   display: block;
   margin-bottom: var(--s3);
 }
+.choices__list--multiple .choices__item {
+  background-color: var(--btnbg);
+}
 /* Cards */
 .shadow .blog-item {
   position: relative;

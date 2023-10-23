@@ -111,7 +111,7 @@ if (!$editoroptions)
 				<?php // echo $this->form->renderField('transition'); ?>
 				<?php // echo $this->form->renderField('state'); ?>
 				<?php echo $this->form->renderField('catid'); ?>
-				<?php // echo $this->form->renderField('tags'); ?>
+				<?php echo $this->form->renderField('tags'); ?>
 				<?php // echo $this->form->renderField('note'); ?>
 				<?php if ($params->get('save_history', 0)) : ?>
 					<?php echo $this->form->renderField('version_note'); ?>
